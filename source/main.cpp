@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
 	consoleInit(GFX_BOTTOM, NULL);
 	C3D_RenderTarget* top = C2D_CreateScreenTarget(GFX_TOP, GFX_LEFT);
 	gfxSetDoubleBuffering(GFX_BOTTOM, false);
-	u8* fb = gfxGetFramebuffer(GFX_BOTTOM, GFX_CENTER, NULL, NULL);
+	u8* fb = gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
 	memcpy(fb, (u8*)icon_bin, icon_bin_size);
     game::initGrid(400, 240);
 	while (aptMainLoop())
