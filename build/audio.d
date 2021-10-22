@@ -1,8 +1,4 @@
-main.o: /home/tim/opengl/3ds/source/main.cpp \
- /home/tim/opengl/3ds/source/game.h \
- /opt/devkitpro/libctru/include/citro2d.h \
- /opt/devkitpro/libctru/include/citro3d.h \
- /opt/devkitpro/libctru/include/c3d/types.h \
+audio.o: /home/tim/opengl/3ds/source/audio.cpp \
  /opt/devkitpro/libctru/include/3ds.h \
  /opt/devkitpro/libctru/include/3ds/types.h \
  /opt/devkitpro/libctru/include/3ds/result.h \
@@ -82,34 +78,7 @@ main.o: /home/tim/opengl/3ds/source/main.cpp \
  /opt/devkitpro/libctru/include/3ds/archive.h \
  /opt/devkitpro/libctru/include/3ds/romfs.h \
  /opt/devkitpro/libctru/include/3ds/font.h \
- /opt/devkitpro/libctru/include/3ds/gdbhio_dev.h \
- /opt/devkitpro/libctru/include/c3d/maths.h \
- /opt/devkitpro/libctru/include/c3d/mtxstack.h \
- /opt/devkitpro/libctru/include/c3d/uniforms.h \
- /opt/devkitpro/libctru/include/c3d/attribs.h \
- /opt/devkitpro/libctru/include/c3d/buffers.h \
- /opt/devkitpro/libctru/include/c3d/base.h \
- /opt/devkitpro/libctru/include/c3d/texenv.h \
- /opt/devkitpro/libctru/include/c3d/effect.h \
- /opt/devkitpro/libctru/include/c3d/texture.h \
- /opt/devkitpro/libctru/include/c3d/proctex.h \
- /opt/devkitpro/libctru/include/c3d/light.h \
- /opt/devkitpro/libctru/include/c3d/lightlut.h \
- /opt/devkitpro/libctru/include/c3d/fog.h \
- /opt/devkitpro/libctru/include/c3d/framebuffer.h \
- /opt/devkitpro/libctru/include/c3d/renderqueue.h \
- /opt/devkitpro/libctru/include/tex3ds.h \
- /opt/devkitpro/libctru/include/c2d/base.h \
- /opt/devkitpro/libctru/include/c2d/spritesheet.h \
- /opt/devkitpro/libctru/include/c2d/sprite.h \
- /opt/devkitpro/libctru/include/c2d/text.h \
- /opt/devkitpro/libctru/include/c2d/font.h \
- /home/tim/opengl/3ds/build/icon_bin.h \
- /home/tim/opengl/3ds/source/audio.h
-/home/tim/opengl/3ds/source/game.h:
-/opt/devkitpro/libctru/include/citro2d.h:
-/opt/devkitpro/libctru/include/citro3d.h:
-/opt/devkitpro/libctru/include/c3d/types.h:
+ /opt/devkitpro/libctru/include/3ds/gdbhio_dev.h
 /opt/devkitpro/libctru/include/3ds.h:
 /opt/devkitpro/libctru/include/3ds/types.h:
 /opt/devkitpro/libctru/include/3ds/result.h:
@@ -190,26 +159,3 @@ main.o: /home/tim/opengl/3ds/source/main.cpp \
 /opt/devkitpro/libctru/include/3ds/romfs.h:
 /opt/devkitpro/libctru/include/3ds/font.h:
 /opt/devkitpro/libctru/include/3ds/gdbhio_dev.h:
-/opt/devkitpro/libctru/include/c3d/maths.h:
-/opt/devkitpro/libctru/include/c3d/mtxstack.h:
-/opt/devkitpro/libctru/include/c3d/uniforms.h:
-/opt/devkitpro/libctru/include/c3d/attribs.h:
-/opt/devkitpro/libctru/include/c3d/buffers.h:
-/opt/devkitpro/libctru/include/c3d/base.h:
-/opt/devkitpro/libctru/include/c3d/texenv.h:
-/opt/devkitpro/libctru/include/c3d/effect.h:
-/opt/devkitpro/libctru/include/c3d/texture.h:
-/opt/devkitpro/libctru/include/c3d/proctex.h:
-/opt/devkitpro/libctru/include/c3d/light.h:
-/opt/devkitpro/libctru/include/c3d/lightlut.h:
-/opt/devkitpro/libctru/include/c3d/fog.h:
-/opt/devkitpro/libctru/include/c3d/framebuffer.h:
-/opt/devkitpro/libctru/include/c3d/renderqueue.h:
-/opt/devkitpro/libctru/include/tex3ds.h:
-/opt/devkitpro/libctru/include/c2d/base.h:
-/opt/devkitpro/libctru/include/c2d/spritesheet.h:
-/opt/devkitpro/libctru/include/c2d/sprite.h:
-/opt/devkitpro/libctru/include/c2d/text.h:
-/opt/devkitpro/libctru/include/c2d/font.h:
-/home/tim/opengl/3ds/build/icon_bin.h:
-/home/tim/opengl/3ds/source/audio.h:

@@ -1,4 +1,5 @@
 #include "game.h"
+#include "audio.h"
 int gridX, gridY;
 int snakelength = 5;
 int score = 0;
@@ -7,6 +8,23 @@ int dirr = RIGHT;
 int targetX, targetY;
 bool target = true;
 extern bool gameover;
+void game::reset(){
+    printf("\e[1;1H\e[2J");
+    snakelength = 5;
+    score = 0;
+    dirr = RIGHT;
+	snakeX[0] = gridsize;
+    snakeX[1] = gridsize;
+    snakeX[2] = gridsize;
+    snakeX[3] = gridsize;
+    snakeX[4] = gridsize;
+	snakeY[0] = gridsize;
+    snakeY[1] = gridsize - 1;
+    snakeY[2] = gridsize - 1;
+    snakeY[3] = gridsize - 1;
+    snakeY[4] = gridsize - 1;
+	gameover = false;
+}
 void game::initGrid(int x, int y){
     gridX = x;
     gridY = y;
@@ -42,6 +60,7 @@ void game::drawsnake(){
     if(snakeX[0] == targetX && snakeY[0] == targetY){
         snakelength++;
         score++;
+        audio_play("romfs:/pickup.bin");
         if(snakelength > MAXLENGTH)
             snakelength = MAXLENGTH;
         target = true;

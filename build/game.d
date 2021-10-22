@@ -103,7 +103,8 @@ game.o: /home/tim/opengl/3ds/source/game.cpp \
  /opt/devkitpro/libctru/include/c2d/spritesheet.h \
  /opt/devkitpro/libctru/include/c2d/sprite.h \
  /opt/devkitpro/libctru/include/c2d/text.h \
- /opt/devkitpro/libctru/include/c2d/font.h
+ /opt/devkitpro/libctru/include/c2d/font.h \
+ /home/tim/opengl/3ds/source/audio.h
 /home/tim/opengl/3ds/source/game.h:
 /opt/devkitpro/libctru/include/citro2d.h:
 /opt/devkitpro/libctru/include/citro3d.h:
@@ -209,3 +210,4 @@ game.o: /home/tim/opengl/3ds/source/game.cpp \
 /opt/devkitpro/libctru/include/c2d/sprite.h:
 /opt/devkitpro/libctru/include/c2d/text.h:
 /opt/devkitpro/libctru/include/c2d/font.h:
+/home/tim/opengl/3ds/source/audio.h:

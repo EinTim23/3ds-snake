@@ -14,6 +14,7 @@
 #define MAXLENGTH 30
 #define gridsize 20
 namespace game{
+    void reset();
     void initGrid(int x, int y);
     void drawgrid();
     void random(int &x, int &y);
