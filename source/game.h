@@ -19,6 +19,7 @@ namespace game{
     void drawgrid();
     void random(int &x, int &y);
     void drawtarget();
+    void drawsnake2();
     void drawsnake();
     void drawunit(int x, int y);
 }

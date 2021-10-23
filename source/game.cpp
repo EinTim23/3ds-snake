@@ -2,9 +2,14 @@
 #include "audio.h"
 int gridX, gridY;
 int snakelength = 5;
+int snakelength2 = 5;
 int score = 0;
+int score2 = 0;
+bool twoplayermode = true;
 int snakeX[MAXLENGTH]={gridsize, gridsize, gridsize, gridsize, gridsize}, snakeY[MAXLENGTH]={gridsize, gridsize - 1, gridsize - 2, gridsize - 3, gridsize - 4};
+int snakeX2[MAXLENGTH]={gridsize * gridsize -gridsize , gridsize * gridsize-gridsize, gridsize * gridsize-gridsize, gridsize * gridsize-gridsize, gridsize * gridsize-gridsize}, snakeY2[MAXLENGTH]={gridsize, gridsize - 1, gridsize - 2, gridsize - 3, gridsize - 4};
 int dirr = RIGHT;
+int dirr2 = LEFT;
 int targetX, targetY;
 bool target = true;
 extern bool gameover;
@@ -12,17 +17,30 @@ void game::reset(){
     printf("\e[1;1H\e[2J");
     snakelength = 5;
     score = 0;
+    score2 = 0;
+    snakelength2 = 5;
     dirr = RIGHT;
+    dirr2 = LEFT;
 	snakeX[0] = gridsize;
     snakeX[1] = gridsize;
     snakeX[2] = gridsize;
     snakeX[3] = gridsize;
     snakeX[4] = gridsize;
+    snakeX2[0] = gridsize * gridsize -gridsize;
+    snakeX2[1] = gridsize * gridsize -gridsize;
+    snakeX2[2] = gridsize * gridsize -gridsize;
+    snakeX2[3] = gridsize * gridsize -gridsize;
+    snakeX2[4] = gridsize * gridsize -gridsize;
 	snakeY[0] = gridsize;
     snakeY[1] = gridsize - 1;
-    snakeY[2] = gridsize - 1;
-    snakeY[3] = gridsize - 1;
-    snakeY[4] = gridsize - 1;
+    snakeY[2] = gridsize - 2;
+    snakeY[3] = gridsize - 3;
+    snakeY[4] = gridsize - 4;
+    snakeY2[0] = gridsize;
+    snakeY2[1] = gridsize - 1;
+    snakeY2[2] = gridsize - 2;
+    snakeY2[3] = gridsize - 3;
+    snakeY2[4] = gridsize - 4;
 	gameover = false;
 }
 void game::initGrid(int x, int y){
@@ -60,7 +78,6 @@ void game::drawsnake(){
     if(snakeX[0] == targetX && snakeY[0] == targetY){
         snakelength++;
         score++;
-        audio_play("romfs:/pickup.bin");
         if(snakelength > MAXLENGTH)
             snakelength = MAXLENGTH;
         target = true;
@@ -69,6 +86,54 @@ void game::drawsnake(){
     {
         if(snakeX[j]==snakeX[0] && snakeY[j]==snakeY[0])
             gameover=true;
+    }
+    for(int i = 1; i<snakelength; i++){
+        for(int j = 1; j<snakelength2; j++){
+            if(snakeX[i] == snakeX2[j] && snakeY[i] == snakeY2[j])
+                gameover = true;
+        }
+    }
+        
+}
+void game::drawsnake2(){
+    for(int i = snakelength2 -1; i > 0;i--){
+        snakeX2[i] = snakeX2[i-1];
+        snakeY2[i] = snakeY2[i-1];
+    }
+    if(dirr2 == UP)
+        snakeY2[0] -=gridsize;
+    else if(dirr2 == DOWN)
+        snakeY2[0]+=gridsize;
+    else if(dirr2 == RIGHT)
+        snakeX2[0]+=gridsize;
+    else if(dirr2 == LEFT)
+        snakeX2[0]-=gridsize;
+    for(int i = 0; i < snakelength2; i++){
+        if(i == 0)
+            C2D_DrawRectSolid(snakeX2[i], snakeY2[i],0, gridsize, gridsize, C2D_Color32f(0.0, 0.0, 1.0, 1.0));
+        else
+            C2D_DrawRectSolid(snakeX2[i], snakeY2[i],0, gridsize, gridsize, C2D_Color32f(0.0, 1.0, 0.0, 1.0));
+    }
+    if(snakeX2[0] ==0 || snakeX2[0] == gridX-gridsize || snakeY2[0] == 0 || snakeY2[0] == gridY-gridsize)
+        gameover = true;
+    if(snakeX2[0] == targetX && snakeY2[0] == targetY){
+        snakelength2++;
+        score2++;
+        if(snakelength2 > MAXLENGTH)
+            snakelength2 = MAXLENGTH;
+        target = true;
+    }
+    for(int j=1;j<snakelength2;j++)
+    {
+        if(snakeX2[j]==snakeX2[0] && snakeY2[j]==snakeY2[0])
+            gameover=true;
+    }
+
+    for(int i = 1; i<snakelength; i++){
+        for(int j = 1; j<snakelength2; j++){
+            if(snakeX[i] == snakeX2[j] && snakeY[i] == snakeY2[j])
+                gameover = true;
+        }
     }
         
 }
