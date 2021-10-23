@@ -1,7 +1,4 @@
-#---------------------------------------------------------------------------------
 .SUFFIXES:
-#---------------------------------------------------------------------------------
-
 ifeq ($(strip $(DEVKITARM)),)
 $(error "Please set DEVKITARM in your environment. export DEVKITARM=<path to>devkitARM")
 endif
@@ -9,30 +6,6 @@ endif
 TOPDIR ?= $(CURDIR)
 include $(DEVKITARM)/3ds_rules
 
-#---------------------------------------------------------------------------------
-# TARGET is the name of the output
-# BUILD is the directory where object files & intermediate files will be placed
-# SOURCES is a list of directories containing source code
-# DATA is a list of directories containing data files
-# INCLUDES is a list of directories containing header files
-# RESOURCES is the directory where AppInfo template.rsf etc can be found
-# OUTPUT is the directory where final executables will be placed
-# GRAPHICS is a list of directories containing graphics files
-# GFXBUILD is the directory where converted graphics files will be placed
-#   If set to $(BUILD), it will statically link in the converted
-#   files as if they were data files.
-#
-# NO_SMDH: if set to anything, no SMDH file is generated.
-# ROMFS is the directory which contains the RomFS, relative to the Makefile (Optional)
-# APP_TITLE is the name of the app stored in the SMDH file (Optional)
-# APP_DESCRIPTION is the description of the app stored in the SMDH file (Optional)
-# APP_AUTHOR is the author of the app stored in the SMDH file (Optional)
-# ICON is the filename of the icon (.png), relative to the project folder.
-#   If not set, it attempts to use one of the following (in this order):
-#     - <Project name>.png
-#     - icon.png
-#     - <libctru folder>/default_icon.png
-#---------------------------------------------------------------------------------
 TARGET      := $(notdir $(CURDIR))
 BUILD       := build
 SOURCES     := source
@@ -42,43 +15,22 @@ GRAPHICS    := gfx
 OUTPUT      := output
 RESOURCES   := resources
 ROMFS       := romfs
-#---------------------------------------------------------------------------------
-# Resource Setup
-#---------------------------------------------------------------------------------
+
 APP_INFO        := $(RESOURCES)/AppInfo
 BANNER_AUDIO    := $(RESOURCES)/audio
 BANNER_IMAGE    := $(RESOURCES)/banner
 ICON            := $(RESOURCES)/icon.png
 RSF             := $(TOPDIR)/$(RESOURCES)/template.rsf
 
-#---------------------------------------------------------------------------------
-# options for code generation
-#---------------------------------------------------------------------------------
 ARCH        := -march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft
 COMMON      := -Wall -O2 -mword-relocations -fomit-frame-pointer -ffunction-sections $(ARCH) $(INCLUDE) -DARM11 -D_3DS
 CFLAGS      := $(COMMON) -std=gnu99
 CXXFLAGS    := $(COMMON) -fno-rtti -fno-exceptions -std=gnu++11
 ASFLAGS     := $(ARCH)
 LDFLAGS     = -specs=3dsx.specs $(ARCH) -Wl,-Map,$(notdir $*.map)
-
-#---------------------------------------------------------------------------------
-# Libraries needed to link into the executable.
-#---------------------------------------------------------------------------------
 LIBS := -lcitro2d -lcitro3d -lctru -lm
-
-#---------------------------------------------------------------------------------
-# list of directories containing libraries, this must be the top level containing
-# include and lib
-#---------------------------------------------------------------------------------
 LIBDIRS	:= $(PORTLIBS) $(CTRULIB)
-
-#---------------------------------------------------------------------------------
-# no real need to edit anything past this point unless you need to add additional
-# rules for different file extensions
-#---------------------------------------------------------------------------------
 ifneq ($(BUILD),$(notdir $(CURDIR)))
-#---------------------------------------------------------------------------------
-
 export TOPDIR      := $(CURDIR)
 export OUTPUT_DIR  := $(TOPDIR)/$(OUTPUT)
 export OUTPUT_FILE := $(OUTPUT_DIR)/$(TARGET)
@@ -96,15 +48,11 @@ SHLISTFILES        := $(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.shli
 GFXFILES           := $(foreach dir,$(GRAPHICS),$(notdir $(wildcard $(dir)/*.t3s)))
 BINFILES           := $(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*)))
 
-#---------------------------------------------------------------------------------
-# use CXX for linking C++ projects, CC for standard C
-#---------------------------------------------------------------------------------
 ifeq ($(strip $(CPPFILES)),)
 	export LD := $(CC)
 else
 	export LD := $(CXX)
 endif
-#---------------------------------------------------------------------------------
 export T3XFILES	      := $(GFXFILES:.t3s=.t3x)
 
 export OFILES_SOURCES := $(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(SFILES:.s=.o)
@@ -122,10 +70,6 @@ export INCLUDE        := $(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
 export LIBPATHS       := $(foreach dir,$(LIBDIRS),-L$(dir)/lib)
 
 export _3DSXDEPS      := $(if $(NO_SMDH),,$(OUTPUT_FILE).smdh)
-
-#---------------------------------------------------------------------------------
-# Inclusion of RomFS folder, App Icon, and building SMDH
-#---------------------------------------------------------------------------------
 
 ifeq ($(strip $(ICON)),)
 	icons := $(wildcard *.png)
@@ -147,10 +91,6 @@ ifneq ($(ROMFS),)
 	export _3DSXFLAGS += --romfs=$(CURDIR)/$(ROMFS)
 endif
 
-#---------------------------------------------------------------------------------
-# First set of targets ensure the build/output directories are created and execute
-# in the context of the BUILD directory.
-#---------------------------------------------------------------------------------
 .PHONY : clean all bootstrap 3dsx cia elf 3ds citra release
 
 all : bootstrap
@@ -183,7 +123,6 @@ clean :
 	@echo clean ...
 	@rm -rf $(BUILD) $(OUTPUT)
 
-#---------------------------------------------------------------------------------
 else
 
 DEPENDS	:=	$(OFILES:.o=.d)
@@ -236,10 +175,6 @@ else
 	SMDHTOOL = smdhtool
 	TEX3DS = tex3ds
 endif
-
-#---------------------------------------------------------------------------------
-# main targets
-#---------------------------------------------------------------------------------
 .PHONY: all 3dsx cia elf 3ds citra release
 
 $(OUTPUT_FILE).3dsx : $(OUTPUT_FILE).elf $(_3DSXDEPS)
@@ -291,23 +226,12 @@ citra : 3dsx
 	$(CITRA) $(OUTPUT_FILE).3dsx
 
 release : $(OUTPUT_FILE).zip cia 3ds
-
-#---------------------------------------------------------------------------------
-# Binary Data Rules
-#---------------------------------------------------------------------------------
 %.bin.o	%_bin.h : %.bin
-#---------------------------------------------------------------------------------
 	@echo $(notdir $<)
 	@$(bin2o)
-#---------------------------------------------------------------------------------
 .PRECIOUS : %.t3x
 %.t3x.o	%_t3x.h : %.t3x
-#---------------------------------------------------------------------------------
 	@$(bin2o)
-
-#---------------------------------------------------------------------------------
-# rules for assembling GPU shaders
-#---------------------------------------------------------------------------------
 define shader-as
 	$(eval CURBIN := $*.shbin)
 	$(eval DEPSFILE := $(DEPSDIR)/$*.shbin.d)
@@ -331,14 +255,9 @@ endef
 	@echo $(notdir $<)
 	@$(call shader-as,$(foreach file,$(shell cat $<),$(dir $<)$(file)))
 
-#---------------------------------------------------------------------------------
 %.t3x %.h :  %.t3s
-#---------------------------------------------------------------------------------
 	@echo $(notdir $<)
 	@$(TEX3DS) -i $< -H $*.h -d $*.d -o $(TOPDIR)/$(GFXBUILD)/$*.t3x
 
 -include $(DEPSDIR)/*.d
-
-#---------------------------------------------------------------------------------------
 endif
-#---------------------------------------------------------------------------------------
